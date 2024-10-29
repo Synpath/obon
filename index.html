@@ -16,39 +16,93 @@ body {
 </style>
 </head>
 <!-- end of body CSS -->
+
+<!-- text that displays at the beginning when page loads -->
 <script id="intro" type="text/plain"> 
 きょうわおぼんです! Today is Obon!
 
-Obon is an annual three-day long Buddhist festival for honoring one's ancestors. The spirits are believed to return during this time to
-visit relatives. Family members will gather together, visit graves, and make offerings to temples and alters. Other customs include dancing 
-(bon odori), making and hanging lanterns, and lighting bonfires.
+Obon is an annual three-day long Buddhist festival for honoring one's ancestors. The spirits are believed to return during this time to visit relatives. Family members will gather together, visit graves, and make offerings to temples and alters. Other customs include dancing (bon odori), making and hanging lanterns, and lighting bonfires.
 
-This Obon, you are the new caretaker of the ancient shrine in the mountains that houses the graves of 7 Japanese historical figures. The old 
-caretaker disappeared under mysterious circumstances, but fear not! They have left you a handy little tome explaining all the spirits that reside
-here and all the offerings you will need for the alters. The old caretaker was very familiar with these spirits, but fresh meat has come in, and
-these spirits have not eaten since last year.
+This Obon, you are the new caretaker of the ancient shrine in the mountains that houses the graves of 7 Japanese historical figures. The old caretaker disappeared under mysterious circumstances, but fear not! They have left you a handy little tome explaining all the spirits that reside here and all the offerings you will need for the alters. The old caretaker was very familiar with these spirits, but fresh meat has come in, and these spirits have not eaten since last year.
 
 Appease the ghosts and may you live to tell the tale!
+
+Press Enter to start the game.
 </script>
+
+<!-- displays when the game starts -->
+<script id="startText" type="text/plain">
+You have entered shrine's graveyard. There are 7 graves in front of you marked:
+[1][2][3][5][6][7][8]
+
+You notice a basket near the shrine gates amongst multiple opened dusty jars of sake. The basket holds a book bound in the yotsume toji (Four Hole Binding) style and various other items. These items must be the offerings.
+
+You sling the basket onto your back and pick up your cleaning tools. Time to begin your tasks.
+</script> 
+
+<script id="commands" type="text/html">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- change the font size to be bigger -->
+  <style>
+    body {
+      font-family: "Courier New";
+      background-color: black;
+      color: white;
+    }
+    </style>
+<meta charset="UTF-8">  
+</head>
+
+<body>
+<h5>Commands:</h5>
+<pre>
+    [c] - print these commands
+    [i] - access your inventory
+    [e] - access the book
+    [#] - pick a grave based on the number; [1][2][3][5][6][7][8]
+    [g] - check which graves you have visited already
+    [esc] - end the game
+    [space] - speed up text writing
+</pre>
+</body>
+</html>
+</script>
+
+
+<script id="command" type="text/plain">
+Commands:
+    [i] - access your inventory
+    [e] - access the book
+    [#] - pick a grave based on the number; [1][2][3][5][6][7][8]
+    [g] - check which graves you have visited already
+    [esc] - end the game
+    [space] - speed up text writing
+</script>
+
+
+
+
+<body onLoad="typeWriter('intro', 'content', 80)">
+<!-- <body onLoad="typeWriter('intro', 'content', 50)"> -->
+
 <script src="main.js"></script>
-
-<body onLoad="typeWriter('intro', 'content', 50)">
-
-
 
 
 
 
 <h1>お盆: a text based-adventure presentation for JPNS 1001</h1>
-<!-- <p id="content">Welcome to my JPNS 1001 Culture Project!</p> -->
- <p id="content"> Hello! </p>
+<p id="content"></p> 
 
 
 
 
 
 <!-- input box + CSS -->
-<input type="text" id="command" name="command"> <br><br>
+<!-- <input type="text" id="command" name="command"> <br><br> -->
+
+<!-- 
 <style>
   #command {
     position: fixed;
@@ -64,6 +118,7 @@ Appease the ghosts and may you live to tell the tale!
     margin: 20px 20px 20px 20px;
   }
 </style>
+-->
 <!-- end of input box stuff-->
 
 
