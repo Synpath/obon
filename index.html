@@ -1,21 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<title>Page Title</title>
+<title>Obon</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- body CSS-->
 <style>
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Courier New";
   background-color: black;
   color: white;
 }
 </style>
 </head>
-<body>
+<!-- end of body CSS -->
+<script id="intro" type="text/plain"> 
+きょうわおぼんです! Today is Obon!
 
-<h1>きょうわ</h1>
-<p>A website created by me.</p>
+Obon is an annual three-day long Buddhist festival for honoring one's ancestors. The spirits are believed to return during this time to
+visit relatives. Family members will gather together, visit graves, and make offerings to temples and alters. Other customs include dancing 
+(bon odori), making and hanging lanterns, and lighting bonfires.
+
+This Obon, you are the new caretaker of the ancient shrine in the mountains that houses the graves of 7 Japanese historical figures. The old 
+caretaker disappeared under mysterious circumstances, but fear not! They have left you a handy little tome explaining all the spirits that reside
+here and all the offerings you will need for the alters. The old caretaker was very familiar with these spirits, but fresh meat has come in, and
+these spirits have not eaten since last year.
+
+Appease the ghosts and may you live to tell the tale!
+</script>
+<script src="main.js"></script>
+
+<body onLoad="typeWriter('intro', 'content', 50)">
+
+
+
+
+
+
+<h1>お盆: a text based-adventure presentation for JPNS 1001</h1>
+<!-- <p id="content">Welcome to my JPNS 1001 Culture Project!</p> -->
+ <p id="content"> Hello! </p>
+
+
+
+
+
+<!-- input box + CSS -->
+<input type="text" id="command" name="command"> <br><br>
+<style>
+  #command {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 97%;
+    color: white;
+    background-color: #2e2e2e;
+    height: 40px;
+    border: none;
+    font-family: "Courier New";
+    font-size: large;
+    margin: 20px 20px 20px 20px;
+  }
+</style>
+<!-- end of input box stuff-->
+
 
 </body>
 </html>
