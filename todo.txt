@@ -4,6 +4,7 @@ Javascript:
 // make a function that instantly finsishes text when typewriting
 // function for automatically scrolling down when next text is added
 
+// iframe for the book?
 
 HTML/CSS:
 =============================
