@@ -9,4 +9,3 @@ HTML/CSS:
 =============================
 // fix margins
 // fix scrollbar stuff
-// new HTML file to hold all the text scripts

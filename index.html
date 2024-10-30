@@ -5,8 +5,6 @@
 <title>Obon</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- body CSS-->
 <style>
 body {
   font-family: "Courier New";
@@ -15,7 +13,9 @@ body {
 }
 </style>
 </head>
-<!-- end of body CSS -->
+
+<!------------------------------------------------------------------------------------------------------------------------------------->
+<!-- TEXT SCRIPTS -->
 
 <!-- text that displays at the beginning when page loads -->
 <script id="intro" type="text/plain"> 
@@ -32,7 +32,7 @@ Press Enter to start the game.
 
 <!-- displays when the game starts -->
 <script id="startText" type="text/plain">
-You have entered shrine's graveyard. There are 7 graves in front of you marked:
+You have entered the shrine's graveyard. There are 7 graves in front of you marked:
 [1][2][3][5][6][7][8]
 
 You notice a basket near the shrine gates amongst multiple opened dusty jars of sake. The basket holds a book bound in the yotsume toji (Four Hole Binding) style and various other items. These items must be the offerings.
@@ -40,6 +40,7 @@ You notice a basket near the shrine gates amongst multiple opened dusty jars of 
 You sling the basket onto your back and pick up your cleaning tools. Time to begin your tasks.
 </script> 
 
+<!-- List of commands -->
 <script id="commands" type="text/html">
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +53,8 @@ You sling the basket onto your back and pick up your cleaning tools. Time to beg
       color: white;
     }
     </style>
-<meta charset="UTF-8">  
+<meta charset="UTF-8"> 
+<meta content="width=device-width, initial-scale=1"> 
 </head>
 <body>
 <h5>Commands:</h5>
@@ -69,7 +71,12 @@ You sling the basket onto your back and pick up your cleaning tools. Time to beg
 </html>
 </script>
 
+<script id="chooseGrave" type="text/plain">
+  Press a number to select a grave:
+  [1][2][3][5][6][7][8]
+</script>
 
+<!-- EXTRANEOUS-->
 <script id="command" type="text/plain">
 Commands:
     [i] - access your inventory
@@ -80,11 +87,10 @@ Commands:
     [space] - speed up text writing
 </script>
 
+<!------------------------------------------------------------------------------------------------------------------------------------>
 
 
-
-<body onLoad="typeWriter('intro', 'content', 80)">
-<!-- <body onLoad="typeWriter('intro', 'content', 50)"> -->
+<body onLoad="typeWriter('intro', 'content', 40)"> 
 
 <script src="main.js"></script>
 
@@ -92,10 +98,8 @@ Commands:
 
 
 <h1>お盆: a text based-adventure presentation for JPNS 1001</h1>
+<p>Welcome to my JPNS 1001 Culture Project! Please play this on a device with an actual keyboard. Currently cannot be played on mobile devices.</p>
 <p id="content"></p> 
-
-
-
 
 
 <!-- input box + CSS -->
