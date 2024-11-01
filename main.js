@@ -5,6 +5,8 @@ let isSkipping = false;
 let isChoosing = false;
 let currentGrave = null;
 let bookOpen = false;
+let currentPage = 0; //keeps track of the current page
+let popup;
 
 //start the game
 // Doesn't fire if the game has already started and the game is writing text
@@ -14,15 +16,20 @@ document.addEventListener('keyup', function(event) {
       startGame();
   }
 });
-
+5
 //print out commands list
+// X = doesn't fire
+// X: gameStart = false & writingText = true & bookOpen = true
 document.addEventListener('keyup', function(event) {
+  if (!bookOpen) {
   if (((event.key == 'c') && (gameStart)) && (!writingText)) {
       document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML 
+  }
   }
 });
 
 // skip text writing
+// X: writingText = false
 document.addEventListener('keyup', function(event) {
   if ((event.key == " ") && (writingText)) {
       isSkipping = true;
@@ -30,15 +37,16 @@ document.addEventListener('keyup', function(event) {
 });
 
 //open book
+//X: gameStart = false, isWriting = true; isChoosing = true; bookOpen = true;
 document.addEventListener('keyup', function(event) {
+  if ((!bookOpen) && (gameStart)) {
   if ((event.key == "e") && (!writingText)) {
       console.log("book opened");
-      
-      const bookContent = `
-      <!DOCTYPE html>
+
+    const bookContent = `
+    <!DOCTYPE html>
       <html lang="en">
       <head>
-      <!-- change the font size to be bigger -->
       <style>
         body {
           font-family: "Courier New";
@@ -48,31 +56,128 @@ document.addEventListener('keyup', function(event) {
         </style>
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
-    <title> Book </title>
+    <title> Ghosts of the Mountain Shrine </title>
     </head>
     <body>
-    <h1>Book!</h1>
+    
+    <div id="content">
+
+    <h1> 山のじんじゃのゆうれい </h1>
+    <h3> Ghosts of the Mountain Shrine </h3>
+    <p>[Press the left and right arrow keys to navigate between pages]</p>
+
+    </div>
+
+    <script id="page0" type="type/html">
+    <h1> 山のじんじゃのゆうれい </h1>
+    <h2> Ghosts of the Mountain Shrine </h2>
+    <p>[Press the left and right arrow keys to navigate between pages]</p>
+    </script>
+
+    <script id="index" type="type/html">
+    <h1>Table of Contents</h1>
+    <hr>
     <p>
-      Book opened: :D
+    1: Emperor Sutoku </br>
+    2: Sugawara no Michizane </br>
+    3: Taira no Masakado </br>
+    5: Izumi no Okuni </br>
+    6: Empress Suiko </br>
+    7: Princess Kazunomiya </br>
+    8: Tomoe Gozen </br>
     </p>
+    </script>  
+
+    <script id="page1" type="type/html">
+      <h1>1: Emperor Sutoku</h1>
+      <p>
+      Page 1 opened
+      </p>
+    </script>
+
+    <script id="page2" type="type/html">
+    <h1>2: Sugawara no Michizane</h1>
+    <p>
+    Page 2 opened
+    </p>
+    </script>
+
+    <script id="page3" type="type/html">
+    <h1>3: Taira no Masakado</h1>
+    <p>
+    Page 3 opened
+    </p>
+    </script>
+
+    <script id="page5" type="type/html">
+    <h1>5: Izumo no Okuni</h1>
+    <p>
+    Page 5 opened
+    </p>
+    </script>
+
+    <script id="page6" type="type/html">
+    <h1>6: Empress Suiko</h1>
+    <p>
+    Page 6 opened
+    </p>
+    </script>
+
+    <script id="page7" type="type/html">
+    <h1>7: Princess Kazunomiya</h1>
+    <p>
+    Page 7 opened
+    </p>
+    </script>
+
+    <script id="page8" type="type/html">
+    <h1>8: Tomoe Gozen</h1>
+    <p>
+    Page 8 opened
+    </p>
+    </script>
+
+    <script>
+    const pageID = ["page0", "index", "page1", "page2", "page3", "page5", "page6", "page7", "page8"] //0,1,2,3,4,5,6,7,8
+    let currentPage = 0;
+        document.addEventListener('keyup', function(event) {
+            if (event.key == 'ArrowRight') {
+            currentPage++;
+            
+            if (currentPage == 9) {
+              currentPage = 0;
+            }
+            document.getElementById("content").innerHTML = document.getElementById(pageID[currentPage]).innerHTML;
+            } else if (event.key == 'ArrowLeft') {
+            currentPage--;
+            if (currentPage == -1) {
+                currentPage = 8;
+            }
+              document.getElementById("content").innerHTML = document.getElementById(pageID[currentPage]).innerHTML;
+            }
+      console.log("currentpage is " + currentPage);
+        });
+    </script>
     </body>
     </html>
-  `;
-  
+    `;
+
   //create the blob/URL
   const blob = new Blob([bookContent], { type: 'text/html'});
   const url = URL.createObjectURL(blob);
-  
-  const popup = window.open(url, 'Popup Window', 'width=400,height=400');
+  popup = window.open(url, 'Popup Window', 'width=500,height=600');
+  bookOpen = true; // is the book open right now? (for other key command logic)
 
   const interval = setInterval(function() {
     if (popup.closed) {
       clearInterval(interval);
       URL.revokeObjectURL(url);
-      console.log("Book popup closed");
+      console.log("Book closed");
+      bookOpen = false;
     }
   }, 100);
   }
+}
 });
 
 // event handlers for choosing the number of the grave
