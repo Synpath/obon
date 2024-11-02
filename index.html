@@ -14,9 +14,14 @@ body {
 </style>
 </head>
 
-<!------------------------------------------------------------------------------------------------------------------------------------->
-<!-- TEXT SCRIPTS -->
+<body onLoad="typeWriter('intro', 'content', 40, true)"> 
 
+<h1>お盆: a text based-adventure presentation for JPNS 1001</h1>
+<p>Welcome to my JPNS 1001 Culture Project! Please play this on a device with an actual keyboard. Currently cannot be played on mobile devices.</p>
+<p id="content"></p> 
+<!------------------------------------------------------------------------------------------------------------------------------------->
+
+<!-- TEXT SCRIPTS -->
 <!-- text that displays at the beginning when page loads -->
 <script id="intro" type="text/plain"> 
 きょうわおぼんです! Today is Obon!
@@ -27,7 +32,7 @@ This Obon, you are the new caretaker of the ancient shrine in the mountains that
 
 Appease the ghosts and may you live to tell the tale!
 
-Press Enter to start the game.
+Press [Enter] to start the game.
 </script>
 
 <!-- displays when the game starts -->
@@ -71,13 +76,7 @@ You sling the basket onto your back and pick up your cleaning tools. Time to beg
 </html>
 </script>
 
-<script id="chooseGrave" type="text/plain">
-  Press a number to select a grave:
-  [1][2][3][5][6][7][8]
-</script>
-
-<!-- HTML for the book -->
-<script id="book" type="text/html">
+<script id="inventory" type="text/html">
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -90,32 +89,28 @@ You sling the basket onto your back and pick up your cleaning tools. Time to beg
       }
       </style>
   <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1"> 
-  <title> Book </title>
+  <meta content="width=device-width, initial-scale=1"> 
   </head>
   <body>
-  <h1>Book!</h1>
-  <p>
-    Book opened: :D
-  </p>
+  <h5>Inventory:</h5>
+  <pre>
+      [m] - Manuscript of the Lotus Sutra
+      [p] - Bouquet of plum blossoms
+      [] - 
+      [k] - Kabuki mask
+      [b] - Buddhist prayer beads
+      [h] - Kabuto, the helmet piece of traditional Japanese armor
+  </pre>
   </body>
   </html>
   </script>
 
-<!------------------------------------------------------------------------------------------------------------------------------------>
 
 
-<body onLoad="typeWriter('intro', 'content', 40)"> 
-
-
-
-
-
-
-<h1>お盆: a text based-adventure presentation for JPNS 1001</h1>
-<p>Welcome to my JPNS 1001 Culture Project! Please play this on a device with an actual keyboard. Currently cannot be played on mobile devices.</p>
-<p id="content"></p> 
-
+<script id="chooseGrave" type="text/plain">
+  Press a number to select a grave:
+  [1][2][3][5][6][7][8]
+</script>
 <script src="main.js"></script>
 </body>
 </html>

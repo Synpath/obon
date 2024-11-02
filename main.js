@@ -1,46 +1,41 @@
 
 let gameStart = false;
-let writingText = false;
+let isWriting = false;
 let isSkipping = false;
-let isChoosing = false;
+let atGrave = false;
 let currentGrave = null;
 let bookOpen = false;
-let currentPage = 0; //keeps track of the current page
-let popup;
+let isScript = false; //plain text vs from a script
 
-//start the game
+//start the game, or begin grave tasks 
 // Doesn't fire if the game has already started and the game is writing text
+// 2: fires if currentGrave != null and atGrave = true
 document.addEventListener('keyup', function(event) {
-  if (((event.key == 'Enter') && (!gameStart)) && (!writingText)) {
+  
+  if ((event.key == 'Enter') && !isWriting) {
+    if (!gameStart) {
       gameStart = true;
       startGame();
+    } else if (atGrave && (currentGrave != null)) {
+      startGrave();
+    }
   }
 });
 5
-//print out commands list
-// X = doesn't fire
-// X: gameStart = false & writingText = true & bookOpen = true
-document.addEventListener('keyup', function(event) {
-  if (!bookOpen) {
-  if (((event.key == 'c') && (gameStart)) && (!writingText)) {
-      document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML 
-  }
-  }
-});
 
 // skip text writing
-// X: writingText = false
+// X: isWriting = false
 document.addEventListener('keyup', function(event) {
-  if ((event.key == " ") && (writingText)) {
+  if ((event.key == " ") && (isWriting)) {
       isSkipping = true;
   }
 });
 
 //open book
-//X: gameStart = false, isWriting = true; isChoosing = true; bookOpen = true;
+//X: gameStart = false, isWriting = true; bookOpen = true;
 document.addEventListener('keyup', function(event) {
   if ((!bookOpen) && (gameStart)) {
-  if ((event.key == "e") && (!writingText)) {
+  if ((event.key == "e") && (!isWriting)) {
       console.log("book opened");
 
     const bookContent = `
@@ -165,7 +160,7 @@ document.addEventListener('keyup', function(event) {
   //create the blob/URL
   const blob = new Blob([bookContent], { type: 'text/html'});
   const url = URL.createObjectURL(blob);
-  popup = window.open(url, 'Popup Window', 'width=500,height=600');
+  const popup = window.open(url, 'Popup Window', 'width=500,height=600');
   bookOpen = true; // is the book open right now? (for other key command logic)
 
   const interval = setInterval(function() {
@@ -180,72 +175,55 @@ document.addEventListener('keyup', function(event) {
 }
 });
 
-// event handlers for choosing the number of the grave
-function chooseGrave() {
-  return new Promise( (resolve) => {
-    document.addEventListener('keyup', function(event) {
-    if ((!writingText) && (gameStart)) {
-      if ((event.key == '1') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 1;
-        resolve();
-      }
-    
-      if ((event.key == '2') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 2;
-        resolve();
-      }
-    
-      if ((event.key == '3') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 3;
-        resolve();
-      }
-    
-      if ((event.key == '5') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 5;
-        resolve();
-      }
-    
-      if ((event.key == '6') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 6;
-        resolve();
-      }
-    
-      if ((event.key == '7') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 7;
-        resolve();
-      }
-    
-      if ((event.key == '8') && (currentGrave == null)) {
-        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
-        currentGrave = 8;
-        resolve();
-      }
-    }
-    });
-  });
-}
+
 
 function startGame() {
+
+  //print out commands list or print out inventory list
+  // X = doesn't fire
+  // X: gameStart = false & isWriting = true & bookOpen = true
+  document.addEventListener('keyup', function(event) {
+    if (!bookOpen & !isWriting) {
+      if (event.key == 'c') {
+        document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML 
+      } else if (event.key == 'i') {
+        document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML
+      }
+    }
+  });
+
+
   document.getElementById("content").innerHTML += '<hr>'; //add a divider after game start
   document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML //print out the commands list for the first time
-  test();
+  syncCode();
 }
 
-async function test() {
+async function syncCode() {
   try {
-    await typeWriter("startText", "content", 50);
-    await skipText(0, "chooseGrave", "content");
+    await typeWriter("startText", "content", 50, true);
+    await skipText(0, "chooseGrave", "content", true);
     await chooseGrave();
+    const graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+    await typeWriter(graveChosen, "content", 50, false);
+    const graveStart = "\nOnce you find your way there, press [Enter] to begin your duties.\n\n";
+    atGrave = true;
+    await typeWriter(graveStart, "content", 50, false);
   } catch (error) {
     console.error("Error:", error);
   }
 }
+
+
+async function startGrave() {
+    const action0 = " As you sweep the dust and leaves off the grave,";
+    const action1 = " As you set out the name tablet,";
+    const action2 = " As you wipe and polish the tombstone,"; 
+    const actions = [action0, action1, action2];
+    const start0 = " you begin to feel a chilling presence around you. The forest quiets down... unnaturally perhaps. And did the mist thicken just then?\n";
+    const start = "You set down your things and begin cleaning." + actions[Math.floor(Math.random() * 3)] + start0;
+    await typeWriter(start, "content", 50, false);
+}
+
 
 // write a character to an html element
 function writeText(char, target) {
@@ -260,9 +238,19 @@ function writeText(char, target) {
 }
 
 // print the rest of the text with no typewriter effect
-function skipText(num, content, target) {
+// num: place at where typewriting stopped
+// content: the id of the script or the actual text
+// target: html element to be written to
+// script: boolean whether text is from a script or a string var
+// 
+function skipText(num, content, target, script) {
   return new Promise( (resolve) => {
-  text = document.getElementById(content).textContent;
+    if (script) {
+      text = document.getElementById(content).textContent;
+    } else {
+      text = content;
+    }
+  
     for (num; num < text.length; num++) {
       const char = text.charAt(num);
       writeText(char, target);
@@ -275,11 +263,16 @@ function skipText(num, content, target) {
 // Typewriter function
 // "text": id of the text block
 // "targetElement": html paragraph that will be changed 
-function typeWriter(text, targetElement, speed) {
+// 
+function typeWriter(text, targetElement, speed, script) {
     
   return new Promise((resolve) => {
-    textCon = document.getElementById(text).textContent;  
-    writingText = true;
+    if (script) {
+      textCon = document.getElementById(text).textContent;
+    } else {
+      textCon = text;
+    }
+    isWriting = true;
     
     let i = 0;
     let timer = setInterval(() => {
@@ -289,16 +282,61 @@ function typeWriter(text, targetElement, speed) {
         i++;
       } else if (isSkipping) {
         clearInterval(timer);
-        skipText(i, text, targetElement);
-        writingText = false;
+        skipText(i, text, targetElement, script);
+        isWriting = false;
         isSkipping = false;
         resolve();
       } else {
         clearInterval(timer);
-        writingText = false;
+        isWriting = false;
         resolve();
       }
     }, speed);
   });
 }
-  
+
+// choose the number of the grave
+function chooseGrave() {
+  return new Promise( (resolve) => {
+    document.addEventListener('keyup', function(event) {
+    if ((!isWriting) && (gameStart)) {
+      if ((event.key == '1') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 1;
+        resolve();
+      } else if ((event.key == '2') && (currentGrave == null)) {   
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 2;
+        resolve();
+      } else if ((event.key == '3') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 3;
+        resolve();
+      } else if ((event.key == '5') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 5;
+        resolve();
+      } else if ((event.key == '6') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 6;
+        resolve();
+      } else if ((event.key == '7') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 7;
+        resolve();
+      } else if ((event.key == '8') && (currentGrave == null)) {
+        document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
+        isChoosing = false;
+        currentGrave = 8;
+        resolve();
+      }
+    }
+    });
+  });
+}  
