@@ -6,6 +6,22 @@ let atGrave = false;
 let currentGrave = null;
 let bookOpen = false;
 let isScript = false; //plain text vs from a script
+let gravesDone = 0;
+let offering = '';
+let offerings = ['m', 'p', 'f', 'k', 'b', 's', 'h'];
+
+//grave text
+const action0 = " As you sweep the dust and leaves off the grave,";
+const action1 = " As you set out the name tablet,";
+const action2 = " As you wipe and polish the stone,"; 
+const action3 = " As you place and light sandalwood incense, ";
+const action4 = " As you place and arrange chrysanthemum flowers, ";
+const action5 = " As you clean the headstone, ";
+const action6 = " As you offer rice, fruit, and sake to the grave, ";
+const action7 = " As you place and arrange red spider lilies, ";
+const actions = [action0, action1, action2, action3, action4, action5, action6, action7];
+const start = "You set down your things and begin." + actions[Math.floor(Math.random() * 8)]
+let ghostName = "";
 
 //start the game, or begin grave tasks 
 // Doesn't fire if the game has already started and the game is writing text
@@ -32,7 +48,7 @@ document.addEventListener('keyup', function(event) {
 });
 
 //open book
-//X: gameStart = false, isWriting = true; bookOpen = true;
+//X: gameStart = false, isWriting = true; bookOpen = true; atGrave = true
 document.addEventListener('keyup', function(event) {
   if ((!bookOpen) && (gameStart)) {
   if ((event.key == "e") && (!isWriting)) {
@@ -176,12 +192,11 @@ document.addEventListener('keyup', function(event) {
 });
 
 
-
 function startGame() {
 
   //print out commands list or print out inventory list
   // X = doesn't fire
-  // X: gameStart = false & isWriting = true & bookOpen = true
+  // X: isWriting = true & bookOpen = true
   document.addEventListener('keyup', function(event) {
     if (!bookOpen & !isWriting) {
       if (event.key == 'c') {
@@ -200,14 +215,8 @@ function startGame() {
 
 async function syncCode() {
   try {
-    await typeWriter("startText", "content", 50, true);
-    await skipText(0, "chooseGrave", "content", true);
+    await typeWriter("startText", "content", 50, true); //"enter the graveyard, heres the 7 graves"
     await chooseGrave();
-    const graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
-    await typeWriter(graveChosen, "content", 50, false);
-    const graveStart = "\nOnce you find your way there, press [Enter] to begin your duties.\n\n";
-    atGrave = true;
-    await typeWriter(graveStart, "content", 50, false);
   } catch (error) {
     console.error("Error:", error);
   }
@@ -215,14 +224,70 @@ async function syncCode() {
 
 
 async function startGrave() {
-    const action0 = " As you sweep the dust and leaves off the grave,";
-    const action1 = " As you set out the name tablet,";
-    const action2 = " As you wipe and polish the tombstone,"; 
-    const actions = [action0, action1, action2];
-    const start0 = " you begin to feel a chilling presence around you. The forest quiets down... unnaturally perhaps. And did the mist thicken just then?\n";
-    const start = "You set down your things and begin cleaning." + actions[Math.floor(Math.random() * 3)] + start0;
-    await typeWriter(start, "content", 50, false);
+    let start0;
+    let line1;
+    const ghostAppear = "The Ghost of " + ghostName + " appears before you. ";
+    
+    if (gravesDone == 1) {
+      start0 = start + " you begin to feel a chilling presence around you. The forest quiets down... unnaturally perhaps. And did the mist thicken just then?\n";
+      line1 = "Frightened, you jump backwards and the items in your basket rattle. ";
+    } else {
+      start0 = start + " the forest begins to quiet down again, and the cold slowly chills your skin.";
+      line1 = "You bow to " + ghostName + " as deeply as you can and utter a prayer to Bodhisattva Kannon.";
+    }
+    const line2 = "\n" + ghostAppear + line1 + ghostName + " looks at you expectantly... and hungrily. You go through your basket of items. Which item will you offer?";
+
+    await typeWriter(start0, "content", 50, false); //cleaning action plus environment text
+    await typeWriter(line2, "content", 50, false); //ghost appear, jump backwards/bow, offer items text
+    document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML //print inventory
+    countdown();
+
 }
+
+function countdown() {
+  let timeLeft = 20; 
+
+    // put giveOfferings function inside of countdown
+    // if (offerings[currentGrave] != offering || offering == null) {start fail sequence}
+    // else {start success sequence}
+    // 30 seconds if i want to let the player look at the book during the countdown
+  const counting = setInterval(() => {
+
+    let timeText = timeLeft + "... ";
+    skipText(0, timeText, "content", false);
+    timeLeft--;
+    if (timeLeft == -1) {
+      clearInterval(counting);
+    }
+  }, 1700);
+
+} //countdown
+
+function giveOffering() {
+  document.addEventListener('keyup', function(event) {
+    
+    if (event.key == 'm') {
+        offering = 'm';
+    } else if (event.key == 'p') {
+      offering = 'p';
+    } else if (event.key == 'f') {
+      offering = 'f';
+    } else if (event.key == 'k') {
+      offering = 'k';
+    } else if (event.key == 'b') {
+      offering = 'b';
+    } else if (event.key == 's') {
+      offering = 's';
+    } else if (event.key == 'h') {
+      offering = 'h';
+    }
+   
+  });
+
+  if (offerings[currentGrave] == offering) {
+
+  }
+} //giveOffering
 
 
 // write a character to an html element
@@ -296,44 +361,89 @@ function typeWriter(text, targetElement, speed, script) {
 }
 
 // choose the number of the grave
-function chooseGrave() {
+ async function chooseGrave() {
+  await skipText(0, "chooseGrave", "content", true);
+  let graveChosen;
+  const graveStart = "\nOnce you find your way there, press [Enter] to begin your duties.\n\n";
   return new Promise( (resolve) => {
-    document.addEventListener('keyup', function(event) {
+    document.addEventListener('keyup', async function(event) {
     if ((!isWriting) && (gameStart)) {
       if ((event.key == '1') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 1;
+        ghostName = "Emperor Sutoku";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '2') && (currentGrave == null)) {   
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 2;
+        ghostName = "Sugawara no Michizane";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '3') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 3;
+        ghostName = "Taira no Masakado";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '5') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 5;
+        ghostName = "Izumo no Okuni";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '6') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 6;
+        ghostName = "Empress Suiko";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '7') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 7;
+        ghostName = "Princess Kazunomiya";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       } else if ((event.key == '8') && (currentGrave == null)) {
         document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
         isChoosing = false;
+        atGrave = true;
         currentGrave = 8;
+        ghostName = "Tomoe Gozen";
+        graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+        await typeWriter(graveChosen, "content", 50, false);
+        await typeWriter(graveStart, "content", 50, false);
+        gravesDone++;
         resolve();
       }
     }

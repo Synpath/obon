@@ -2,70 +2,11 @@ Javascript:
 ===========================
 // make functions for all keypresses
 // function for automatically scrolling down when next text is added
-
-gameStart = true, false;
-Enter - NO, YES
-C - YES, NO
-I - YES, NO
-E - YES, NO
-# Key - YES, NO
-G - YES, NO
-ESC - YES, NO
-Space - YES, YES
-Left - YES, NO
-Right - YES, NO
-
-writingText = true; false
-Enter - NO, YES if gameStart = false
-C - NO, YES
-I - NO, YES
-E - NO, YES
-# Key - NO, YES
-G - NO, YES
-ESC - YES (need to code this functionality to immediately stop text printing, clear buffer, print out "game ended"), YES
-Space - YES, NO
-Left - NO, writingText cannot be true while book is open
-Right - NO, writingText cannot be true while book is open
-
-isSkipping = true; false
-//help
-Enter - NO, YES if gameStart = false
-C - NO, YES
-I - NO, YES
-E - NO, YES
-# Key - NO, YES
-G - NO, YES
-ESC - YES (need to code this functionality to immediately stop text printing, clear buffer, print out "game ended"), YES
-Space - YES, NO
-Left - NO, writingText cannot be true while book is open
-Right - NO, writingText cannot be true while book is open
-
-isChoosing = true; false
-Enter - NO, YES if gameStart = false
-C - NO, YES
-I - NO, YES
-E - NO, YES
-# Key - YES, NO
-G - NO, YES
-ESC - YES (need to code this functionality to immediately stop text printing, clear buffer, print out "game ended"), YES
-Space - YES, NO
-Left - X:
-Right - NO, writingText cannot be true while book is open
-
-bookOpen = true; false
-Enter - X: bookOpen can only be true once gameStart = true
-C - NO, YES
-I - NO, YES
-E - NO, YES
-# - NO, YES
-G - NO, YES
-ESC - NO (if book open, print out message to close book before exiting game), YES
-Space - NO, YES
-Left - YES, NO
-Right - YES, NO
-
+// rewrite if else statement chains to be switch statements
+// scramble the page order of the book 
+// combine unnecessarily separate event listeners
 
 HTML/CSS:
 =============================
-// fix margins
+// fix margins on Github Pages
 // fix scrollbar stuff
