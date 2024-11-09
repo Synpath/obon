@@ -13,6 +13,6 @@ HTML/CSS:
 Game:
 ================================
 [2] implement endings (kinda sorta done, need to test)
-[3] function to print out completed graves 
-[4] add function to end the game at ANY POINT if the player hits esc, if player wants to restart the game, reload the page or reload the body "content"
+[3] implement [esc]
+[4] add function to end the game at ANY POINT if the player hits esc
 [6] write book pages

@@ -25,6 +25,31 @@ const action7 = " As you place and arrange red spider lilies, ";
 const actions = [action0, action1, action2, action3, action4, action5, action6, action7];
 let ghostName = "";
 
+//print out finished graves
+document.addEventListener('keyup', function(event) {
+  if (gameStart && !isWriting) {
+    let graves = "\nFinished Graves:";
+
+    for (i = 0; i < 9; i++) {
+      if (finGrave[i] == true) {
+        graves += " [" + i + "]";
+      }
+    }
+
+    if ((event.key == 'g') || (event.key == 'G')) {
+      skipText(0, graves, "content", false);
+    }
+  }
+});
+
+
+//restart the game
+document.addEventListener('keyup', function(event) {
+  if ((event.key == 'r') || (event.key == 'R')) {
+    this.location.reload();
+  }
+});
+
 //start the game, begin grave tasks, skip text writing
 // Doesn't fire if the game has already started and the game is writing text
 // 2: fires if currentGrave != null and atGrave = true
@@ -43,8 +68,8 @@ document.addEventListener('keyup', function(event) {
 //open book
 //X: gameStart = false, isWriting = true; bookOpen = true; atGrave = true
 document.addEventListener('keyup', function(event) {
-  if ((!bookOpen) && (gameStart)) {
-  if ((event.key == "e") && (!isWriting)) {
+  if ((!bookOpen && gameStart) && !isWriting) {
+  if (event.key == "e" || event.key == "E") {
       console.log("book opened");
 
     const bookContent = `
@@ -317,7 +342,15 @@ async function startGame() {
             document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML;
             window.scrollTo(0, document.body.scrollHeight);
             break;
+          case 'C':
+            document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML;
+            window.scrollTo(0, document.body.scrollHeight);
+            break;
           case 'i':
+            document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML;
+            window.scrollTo(0, document.body.scrollHeight);
+            break;
+          case 'I':
             document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML;
             window.scrollTo(0, document.body.scrollHeight);
             break;
@@ -389,22 +422,43 @@ function offerSwitch(event) {
     case 'm': 
       offering = 'm';
       break;
+    case 'M':
+      offering = 'm';
+      break;
     case 'p': 
+      offering = 'p';
+      break;
+    case 'P': 
       offering = 'p';
       break;
     case 'f':
       offering = 'f';
       break;
+    case 'F':
+      offering = 'f';
+      break;
     case 'k':
       offering = 'k';
       break;
+    case 'K':
+        offering = 'k';
+        break;
     case 'b':
       offering = 'b';
       break;
+    case 'B':
+        offering = 'b';
+        break;
     case 's':
       offering = 's';
       break;
+    case 'S':
+        offering = 's';
+        break;
     case 'h':
+      offering = 'h';
+      break;
+    case 'H':
       offering = 'h';
       break;
   }
