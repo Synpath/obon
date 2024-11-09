@@ -1,6 +1,5 @@
 Javascript:
 ===========================
-// function for automatically scrolling down when next text is added
 // rewrite if else statement chains to be switch statements
 // scramble the page order of the book 
 // combine unnecessarily separate event listeners and possibly do remove eventlistener at the end of some functions
@@ -9,10 +8,11 @@ HTML/CSS:
 =============================
 // fix margins on Github Pages
 // fix scrollbar stuff
+// typewriter blinking effect
 
 Game:
 ================================
-[1] if grave is completed, prevent player from choosing it
-[2] implement endings
+[2] implement endings (kinda sorta done, need to test)
 [3] function to print out completed graves 
 [4] add function to end the game at ANY POINT if the player hits esc, if player wants to restart the game, reload the page or reload the body "content"
+[6] write book pages

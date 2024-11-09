@@ -1,14 +1,17 @@
 
 let gameStart = false;
+let gameEnd = false;
 let isWriting = false;
 let isSkipping = false;
 let atGrave = false;
 let currentGrave = null;
 let bookOpen = false;
 let isScript = false; //plain text vs from a script
-let gravesDone = 0;
+let offering = null;
+let gravesDone = 1;
 let offerings = ['0', 'm', 'p', 'f', '4','k', 'b', 's', 'h']; 
-let playerHealth = 7;
+let playerHealth;
+let finGrave = [null, false, false, false, null, false, false, false, false,] // keeps track of which graves are done
 
 //grave text
 const action0 = " As you sweep the dust and leaves off the grave,";
@@ -20,7 +23,6 @@ const action5 = " As you clean the headstone, ";
 const action6 = " As you offer rice, fruit, and sake to the grave, ";
 const action7 = " As you place and arrange red spider lilies, ";
 const actions = [action0, action1, action2, action3, action4, action5, action6, action7];
-const start = "\nYou set down your things and begin." + actions[Math.floor(Math.random() * 8)]
 let ghostName = "";
 
 //start the game, begin grave tasks, skip text writing
@@ -29,7 +31,7 @@ let ghostName = "";
 document.addEventListener('keyup', function(event) {
   
   if ((event.key == 'Enter') && !isWriting) {
-    if (!gameStart) {
+    if (!gameStart && !gameEnd) {
       gameStart = true;
       startGame();
     }
@@ -189,53 +191,118 @@ function graveEnter(event) {
 }
 
 // choose a grave
-document.addEventListener('keyup', function(event) {
-  if ((!isWriting) && (gameStart)) { //not writing and game has started
-    if ((event.key == '1') && (currentGrave == null)) { 
+document.addEventListener('keyup', async function(event) {
+  if (!isWriting && gameStart) { //not writing and game has started
+          let doneText = "\nThis grave has already been cleaned. Try another one.\n";
+          if ((event.key == '1') && (currentGrave == null)) { 
+            currentGrave = 1;
+           switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Emperor Sutoku";
+                startGrave(); 
+                finGrave[currentGrave] = true;
+                break;
+           }      
+          } else if ((event.key == '2') && (currentGrave == null)) {   
+            currentGrave = 2;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Sugawara no Michizane";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           }     
+            
+          } else if ((event.key == '3') && (currentGrave == null)) {
+            currentGrave = 3;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Taira no Masakado";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           }  
+          } else if ((event.key == '5') && (currentGrave == null)) {
+            currentGrave = 5;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Izumo no Okuni";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           } 
+            
+          } else if ((event.key == '6') && (currentGrave == null)) {
 
-      currentGrave = 1;
-      ghostName = "Emperor Sutoku";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '2') && (currentGrave == null)) {   
+            currentGrave = 6;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Empress Suiko";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           } 
 
-      currentGrave = 2;
-      ghostName = "Sugawara no Michizane";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '3') && (currentGrave == null)) {
+          } else if ((event.key == '7') && (currentGrave == null)) {
+        
+            currentGrave = 7;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Princess Kazunomiya";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           } 
+            
+          } else if ((event.key == '8') && (currentGrave == null)) {
 
-      currentGrave = 3;
-      ghostName = "Taira no Masakado";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '5') && (currentGrave == null)) {
-
-      currentGrave = 5;
-      ghostName = "Izumo no Okuni";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '6') && (currentGrave == null)) {
-
-      currentGrave = 6;
-      ghostName = "Empress Suiko";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '7') && (currentGrave == null)) {
-   
-      currentGrave = 7;
-      ghostName = "Princess Kazunomiya";
-      gravesDone++;
-      startGrave();
-    } else if ((event.key == '8') && (currentGrave == null)) {
-
-      currentGrave = 8;
-      ghostName = "Tomoe Gozen";
-      gravesDone++;
-      startGrave();
-    }
+            currentGrave = 8;
+            switch (finGrave[currentGrave]) {
+              case true:
+                await typeWriter(doneText, "content", 50, false); 
+                await skipText(0, "chooseGrave", "content", true);
+                currentGrave = null;
+                break;
+              default:
+                ghostName = "Tomoe Gozen";
+                startGrave();
+                finGrave[currentGrave] = true;
+                break;
+           } 
+          }
     }
   });
+
 
 // start the game
 async function startGame() {
@@ -245,17 +312,24 @@ async function startGame() {
   // X: isWriting = true & bookOpen = true
   document.addEventListener('keyup', function(event) {
     if (!bookOpen & !isWriting) {
-      if (event.key == 'c') {
-        document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML 
-      } else if (event.key == 'i') {
-        document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML
-      }
+        switch (event.key) {
+          case 'c':
+            document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML;
+            window.scrollTo(0, document.body.scrollHeight);
+            break;
+          case 'i':
+            document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML;
+            window.scrollTo(0, document.body.scrollHeight);
+            break;
+        }
     }
   });
 
+  playerHealth = 7;
   document.getElementById("content").innerHTML += '<hr>'; //add a divider after game start
   document.getElementById("content").innerHTML += document.getElementById("commands").innerHTML //print out the commands list for the first time
-  
+  window.scrollTo(0, document.body.scrollHeight);
+
   try {
     await typeWriter("startText", "content", 50, true); //"you notice basket, time to begin tasks, heres the 7 graves"
     await skipText(0, "chooseGrave", "content", true);
@@ -280,11 +354,12 @@ async function graveAction() {
   let line1;
   let line3 = "\nTime to move on for the night can only grow shorter.\n";
   const ghostAppear = "The Ghost of " + ghostName + " appears before you. ";
+  const start = "\nYou set down your things and begin." + actions[Math.floor(Math.random() * 8)]
   if (gravesDone == 1) {
     start0 = start + " you begin to feel a chilling presence around you. The forest quiets down... unnaturally perhaps. And did the mist thicken just then?\n";
     line1 = "Frightened, you jump backwards and the items in your basket rattle. ";
   } else {
-    start0 = start + " the forest begins to quiet down again, and the cold slowly chills your skin.";
+    start0 = start + " the forest begins to quiet down again, and the cold slowly chills your skin.\n";
     line1 = "You bow to " + ghostName + " as deeply as you can and utter a prayer to Bodhisattva Kannon to protect you. ";
   }
   const line2 = "\n " + ghostAppear + line1 + ghostName + " looks at you expectantly... and hungrily. You go through your basket of items. Which item will you offer?";
@@ -292,45 +367,54 @@ async function graveAction() {
   await typeWriter(start0, "content", 50, false); //cleaning action plus environment text
   await typeWriter(line2, "content", 50, false); //ghost appear, jump backwards/bow, offer items text
   document.getElementById("content").innerHTML += document.getElementById("inventory").innerHTML //print inventory
+  window.scrollTo(0, document.body.scrollHeight);
   await countdown();
   console.log("Grave Finished");
-  await typeWriter(line3, "content", 50, false); // move on text
-  await skipText(0, "chooseGrave", "content", true); //print graves again
-  document.removeEventListener('keyup', graveEnter);
-  currentGrave = null;
+  console.log("Graves finished = " + gravesDone);
+  if (gravesDone == 7) {
+    await endGame();
+    document.removeEventListener('keyup', graveEnter);
+  } else {
+    await typeWriter(line3, "content", 50, false); // move on text
+    await skipText(0, "chooseGrave", "content", true); //print graves again
+    document.removeEventListener('keyup', graveEnter);
+    currentGrave = null;
+    gravesDone++;
+  }
 }
 
+// switch statement for offering keyboard event
+function offerSwitch(event) {
+  switch (event.key) {
+    case 'm': 
+      offering = 'm';
+      break;
+    case 'p': 
+      offering = 'p';
+      break;
+    case 'f':
+      offering = 'f';
+      break;
+    case 'k':
+      offering = 'k';
+      break;
+    case 'b':
+      offering = 'b';
+      break;
+    case 's':
+      offering = 's';
+      break;
+    case 'h':
+      offering = 'h';
+      break;
+  }
+}
 
 function countdown() {
-  return new Promise( (resolve) => {
+  return new Promise( async (resolve) => {
   let timeLeft = 20; 
-  let offering = null;
-  document.addEventListener('keyup', function(event) {
 
-      switch (event.key) {
-        case 'm': 
-          offering = 'm';
-          break;
-        case 'p': 
-          offering = 'p';
-          break;
-        case 'f':
-          offering = 'f';
-          break;
-        case 'k':
-          offering = 'k';
-          break;
-        case 'b':
-          offering = 'b';
-          break;
-        case 's':
-          offering = 's';
-          break;
-        case 'h':
-          offering = 'h';
-          break;
-      }
-  });
+  document.addEventListener('keyup', offerSwitch);
 
     // fail if offering is wrong within time limit, offering wrong after time limit, time runs out
     // 30 seconds if i want to let the player look at the book during the countdown>???????????????????????????????
@@ -346,31 +430,34 @@ function countdown() {
       if (offerings[currentGrave] == offering) { // success sequence if offering is right
         console.log("SUCCESS YAY");
         writeText('\n', "content");
+        document.removeEventListener('keyup', offerSwitch);
         await successGrave();
+        offering = null;
         resolve();
       } else {
         // fail sequence if offering wasnt selected or offering was wrong
         console.log("FAIL");
         playerHealth--;
         writeText('\n', "content");
+        document.removeEventListener('keyup', offerSwitch);
         await failGrave();
+        offering = null;
         resolve();
       }
-
     }
   }, 1700);
-
 });
 } //countdown
 
 function successGrave() {
   return new Promise(async (resolve) => {
   let line2;
+
   switch (gravesDone) {
     case 1:
       line2 = " a shaky bow.\n";
       break;
-    case 2:
+    default:
       line2 = " another deep bow.\n";
       break;
   }
@@ -389,12 +476,15 @@ function failGrave() {
   let line2;
   let backstory;
 
-  if (gravesDone == 1) {
-    line2 = " Suddenly, ";
-    backstory = "\n\nYou now realize how the old caretaker must have died. He drank too much sake during last year's Obon and was torn to shreds by the angered spirits. If you want to avoid his fate, you must appeast at least 4 ghosts to leave with your life intact.\n";
-  } else {
-    line2 = " You brace yourself. ";
-    backstory = "";
+  switch (gravesDone) {
+    case 1:
+      line2 = " Suddenly, ";
+      backstory = "\n\nYou now realize how the old caretaker must have died. He drank too much sake during last year's Obon and was torn to shreds by the angered spirits. If you want to avoid his fate, you must appeast at least 4 ghosts to leave with your life intact.\n";
+      break;
+    default:
+      line2 = " You brace yourself. ";
+      backstory = "";
+      break;
   }
 
   if (playerHealth <= 6 && playerHealth >= 4) { //from 4-6 health
@@ -411,6 +501,38 @@ function failGrave() {
 });
 }
 
+function endGame() {
+  return new Promise ( async (resolve) => {
+    gameStart = false;
+    gameEnd = true;
+    console.log("Game Ended");
+    let text;
+    
+    await typeWriter("\n\nFinally, every last grave is clean. ", "content", 50, false);
+
+    //endings
+    if (playerHealth == 7) {
+        await typeWriter("Thankfully, you have survived the night unscathed. ", "content", 50, false);
+        text = "You make";
+        let text1 = text + " your way out through the shrine's torii gate. You are finally back in the land of the living. As you turn to face all the graves one last time, you bow deeply, give your thanks to Bodhisattva Kannon, and return home.\n";
+        await typeWriter(text1 + "\nMay your next Obon be as fruitful as this one.", "content", 50, false);
+        
+    } else if (playerHealth >= 4 && playerHealth <= 6) {
+        await typeWriter("Unfortunately, you suffered harm... But you lived to tell the tale! ", "content", 50, false);
+        text = "You stagger";
+        let text1 = text + " your way out through the shrine's torii gate. You are finally back in the land of the living. As you turn to face all the graves one last time, you bow deeply, give your thanks to Bodhisattva Kannon, and return home.\n";
+        await typeWriter(text1 + "\nMay your next Obon be as fruitful as this one.", "content", 50, false);
+    } else if (playerHealth >= 0 && playerHealth <= 3) {
+      let text1 = "You could not escape the old caretaker's fate. Unfortunately, you were torn to shreds. When you open your eyes again, you are floating above your own headstone. It is Obon once more, and your family members are carefully preparing your offerings."
+      let text2 = " You survey all the red spider lilies blooming around your headstone.\n\nWill you condemn them to the same fate as yours?";
+      await typeWriter(text1 + text2, "content", 50, false);
+    }
+
+    resolve();
+});
+} //endGame
+
+
 // write a character to an html element
 function writeText(char, target) {
   return new Promise( (resolve) => {
@@ -419,6 +541,7 @@ function writeText(char, target) {
     } else {
       document.getElementById(target).innerHTML += char;
     }
+    window.scrollTo(0, document.body.scrollHeight);
     resolve();
   });
 }
@@ -461,12 +584,13 @@ function typeWriter(text, targetElement, speed, script) {
       textCon = text;
     }
     isWriting = true;
-    
+    const container = document.getElementById('scroll');
     let i = 0;
     let timer = setInterval(() => {
       if ((i < textCon.length) && (!isSkipping)) {
         const char = textCon.charAt(i);
         writeText(char, targetElement);
+        window.scrollTo(0, document.body.scrollHeight);
         i++;
       } else if (isSkipping) {
         clearInterval(timer);
@@ -477,6 +601,7 @@ function typeWriter(text, targetElement, speed, script) {
       } else {
         clearInterval(timer);
         isWriting = false;
+        window.scrollTo(0, document.body.scrollHeight);
         resolve();
       }
     }, speed);
