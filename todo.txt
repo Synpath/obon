@@ -6,13 +6,11 @@ Javascript:
 
 HTML/CSS:
 =============================
-// fix margins on Github Pages
-// fix scrollbar stuff
+// fix scrollbar stuff, make it transparent?
 // typewriter blinking effect
 
 Game:
 ================================
-[2] implement endings (kinda sorta done, need to test)
 
 [3] implement [esc]
 while writing: skip text, print out exit message
@@ -20,5 +18,3 @@ while choosing an offering: stop countdown, print out exit message
 bookopen: book has to be closed
 [esc] - end the game
 add function to end the game at ANY POINT if the player hits [esc]
-
-[6] write book pages

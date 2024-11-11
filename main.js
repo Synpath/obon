@@ -12,6 +12,7 @@ let gravesDone = 1;
 let offerings = ['0', 'm', 'p', 'f', '4','k', 'b', 's', 'h']; 
 let playerHealth;
 let finGrave = [null, false, false, false, null, false, false, false, false,] // keeps track of which graves are done
+let choosing = false;
 
 //grave text
 const action0 = " As you sweep the dust and leaves off the grave,";
@@ -196,7 +197,7 @@ document.addEventListener('keyup', function(event) {
 
     <script id="page8" type="type/html">
     <h1>8: Tomoe Gozen</h1>
-    <h5> Fearsome and infamous female samurai </h5>
+    <h5> Fearsome and infamous female samurai</h5>
     <p>
     Tomoe Gozen is one of the most famous onna musha, female samurai. While there is speculation that she may have been a mythical figure rather than an actual one, she has earned her place in samurai history with her fierceness and martial skill. <br>
     <br>Virtually all records of her existence come from The Tale of Heike, an epic of the Genpei War. According to these epics, Tomoe was a formidable archer and excellent swordswoman. Rather than focus on defense like the onna bugeisha, she was an offensive warrior. She mostly likely would have lived around 1157 to 1247. Tomoe is portrayed as serving the samurai Minamoto Yoshinaka, either as just a samurai, as his wife, or as a mistress. Her fame comes from her role during the Genpei War from 1180 to 1185. <br>
@@ -250,7 +251,8 @@ document.addEventListener('keyup', function(event) {
 });
 
 function graveEnter(event) {
-    if (event.key == 'Enter') {
+    if ((event.key == 'Enter') && (!choosing)) {
+      choosing = true;
       graveAction();
     }
 }
@@ -413,7 +415,7 @@ async function startGame() {
 // start the grave
 async function startGrave() {
     atGrave = true;
-    let graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book and offerings as you find your way towards the grave.\n";
+    let graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book with [e] and offerings with [i] as you find your way towards the grave.\n";
     const graveStart = "\nOnce you find your way there, press [Enter] to begin your duties.\n";
 
     document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
@@ -447,6 +449,7 @@ async function graveAction() {
   console.log("Graves finished = " + gravesDone);
 
   if (gravesDone == 7) { //end the game once all the graves are finished
+    choosing = false;
     await endGame();
     document.removeEventListener('keyup', graveEnter);
   } else { 
@@ -455,6 +458,7 @@ async function graveAction() {
     document.removeEventListener('keyup', graveEnter);
     currentGrave = null;
     atGrave = false;
+    choosing = false;
     gravesDone++;
   }
 }
@@ -511,7 +515,7 @@ function offerSwitch(event) {
 function countdown() {
   return new Promise( async (resolve) => {
   let timeLeft = 20; 
-
+  
   document.addEventListener('keyup', offerSwitch);
 
     // fail if offering is wrong within time limit, offering wrong after time limit, time runs out
@@ -520,7 +524,6 @@ function countdown() {
     let timeText = timeLeft + "... ";
     skipText(0, timeText, "content", false);
     timeLeft--;
-
     if ((timeLeft == -1) || offering != null) { //stops countdown if time runs out or an offering is selected
       clearInterval(counting);
       if (offerings[currentGrave] == offering) { // success sequence if offering is right
@@ -575,7 +578,7 @@ function failGrave() {
   switch (gravesDone) {
     case 1:
       line2 = " Suddenly, ";
-      backstory = "\n\nYou now realize how the old caretaker must have died. He drank too much sake during last year's Obon and was torn to shreds by the angered spirits. If you want to avoid his fate, you must appeast at least 4 ghosts to leave with your life intact.\n";
+      backstory = "\n\nYou now realize how the old caretaker must have died. He drank too much sake during last year's Obon and was torn to shreds by the angered spirits. If you want to avoid his fate, you must appeast at least 4 ghosts to leave with your life intact. You now realize you should take a look at the book, [e], to learn about each ghost's favored offering.\n";
       break;
     default:
       line2 = " You brace yourself. ";
