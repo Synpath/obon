@@ -12,11 +12,6 @@ HTML/CSS:
 Game:
 ================================
 
-ADD SOURCES PAGE TO THE book
-
-- print out message to close the book if user tries a key command while book is open
-- print out message that book cannot be opened while at a grave
-
 [3] implement [esc]
 while writing: skip text, print out exit message
 while choosing an offering: stop countdown, print out exit message

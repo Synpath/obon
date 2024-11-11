@@ -93,7 +93,9 @@ document.addEventListener('keyup', function(event) {
 
     <h1> 山のじんじゃのゆうれい </h1>
     <h3> Ghosts of the Mountain Shrine </h3>
-    <p>[Press the left and right arrow keys to navigate between pages]</p>
+    <p>[Press the left and right arrow keys to navigate between pages]<br>
+    You cannot perform any other actions while the book is open. 
+    </p>
 
     </div>
 
@@ -481,7 +483,7 @@ async function startGame() {
 // start the grave
 async function startGrave() {
     atGrave = true;
-    let graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. Now seems like a good time to check the book with [e] and offerings with [i] as you find your way towards the grave.\n";
+    let graveChosen = "\nYou move towards Grave [" + currentGrave + "]. As you walk into the mist, time seems to slow down. You flip through the book with [e] and check the offerings with [i] as you find your way towards the grave. Now seems like a good time to learn about each ghost and what offerings each one likes. Once you're at the grave, there won't be any time to start reading.\n";
     const graveStart = "\nOnce you find your way there, press [Enter] to begin your duties.\n";
 
     document.getElementById("content").innerHTML += '<hr>'; //add a divider after choosing a grave
