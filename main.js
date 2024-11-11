@@ -26,11 +26,11 @@ const action7 = " As you place and arrange red spider lilies, ";
 const actions = [action0, action1, action2, action3, action4, action5, action6, action7];
 let ghostName = "";
 
-//print out finished graves or end game when escape is pressed or restart the game when r is pressed
+//print out finished graves or end game when escape is pressed or restart the game when r is pressed or print out finished graves
 document.addEventListener('keyup', function(event) {
   if (gameStart) {
 
-    if (!isWriting && !bookOpen) {
+    if ((!isWriting && !bookOpen) && !choosing) {
     let graves = "\nFinished Graves:";
 
     for (i = 0; i < 9; i++) {
@@ -340,7 +340,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Emperor Sutoku";
                 startGrave(); 
-                finGrave[currentGrave] = true;
                 break;
            }      
           } else if ((event.key == '2') && (currentGrave == null)) {   
@@ -354,7 +353,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Sugawara no Michizane";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            }     
             
@@ -369,7 +367,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Taira no Masakado";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            }  
           } else if ((event.key == '5') && (currentGrave == null)) {
@@ -383,7 +380,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Izumo no Okuni";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            } 
             
@@ -399,7 +395,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Empress Suiko";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            } 
 
@@ -415,7 +410,6 @@ document.addEventListener('keyup', async function(event) {
               default:
                 ghostName = "Princess Kazunomiya";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            } 
             
@@ -426,12 +420,10 @@ document.addEventListener('keyup', async function(event) {
               case true:
                 await typeWriter(doneText, "content", 50, false); 
                 await skipText(0, "chooseGrave", "content", true);
-                currentGrave = null;
                 break;
               default:
                 ghostName = "Tomoe Gozen";
                 startGrave();
-                finGrave[currentGrave] = true;
                 break;
            } 
           }
@@ -630,6 +622,7 @@ function successGrave() {
   }
   let line1 = "\n" + ghostName + " takes the offering and disappears. The heavy mist seems to lessen a little and the hint of warmth surrounds you. You face the grave and give the headstone" + line2;
   await typeWriter(line1, "content", 50, false); //successText
+  finGrave[currentGrave] = true;
   resolve();
 });
 } //successGrave
@@ -664,6 +657,7 @@ function failGrave() {
   
   let line1 = "\nThe air turns even colder and darker. " + " The spirit wears a " + expressions[Math.floor(Math.random() * 8)] + " expression." + line2 + ghostName + " reaches out a ghostly hand and " + injury;
   await typeWriter(line1 + backstory, "content", 50, false); //failText
+  finGrave[currentGrave] = true;
   resolve();
 });
 }
