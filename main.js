@@ -114,6 +114,7 @@ document.addEventListener('keyup', function(event) {
     <h3><br>6: Empress Suiko </br></h3>
     <h3><br>7: Sugawara no Michizane </br></h3>
     <h3><br>8: Tomoe Gozen </br></h3>
+    <h3><br>9: Sources </br></h3>
     </p>
     </script>  
 
@@ -207,21 +208,86 @@ document.addEventListener('keyup', function(event) {
     </p>
     </script>
 
+    <script id="sources" type="type/html">
+    <h1>Sources</h1>
+    <hr>
+    <p>
+    
+    <h4>Emperor Sutoku: </h4>
+    https://yokai.com/sutokutennou/<br>
+    <br>https://www.britannica.com/biography/Sutoku<br>
+    <br>https://writersinkyoto.com/2020/06/28/on-kyoto/sutoku-in-kyoto/<br>
+    <br>https://www.morethantokyo.com/emperor-sutoku-vengeful-ghost/<br>
+    <br>https://ronins-guide.com/hogen-rebellion/<br>
+    <br>https://www.metmuseum.org/art/collection/search/44853<br>
+    <br>
+    
+    <h4> Taira no Masakado </h4>
+    https://www.britannica.com/biography/Taira-Masakado#ref10552<br>
+    <br>https://jref.com/articles/taira-masakado-%E5%B9%B3%E5%B0%86%E9%96%80-903-940.388/<br>
+    <br>https://yokai.com/tairanomasakado/<br>
+    <br>https://www.morethantokyo.com/taira-no-masakado-vengeful-ghost/<br>
+    <br>
+    
+    <h4>Sugawara no Michizane</h4>
+    <br>https://jref.com/articles/sugawara-no-michizane.201/<br>
+    <br>https://yokai.com/sugawaranomichizane/<br>
+    <br>https://www.morethantokyo.com/sugawara-no-michizane-vengeful-ghost/<br>
+    <br>
+
+    <h4> Princess Kazunomiya </h4>
+    https://www.nla.gov.au/digital-classroom/year-8/asia-pacific-world/japan-under-shoguns-c794-1867/themes/final-act-and<br>
+    <br>https://www.japanesewiki.com/emperor/Kazunomiya%20Imperial%20Princess%20Chikako.html<br>
+    <br>https://www.nakasendoway.com/the-story-of-princess-kazunomiya/<br>
+    <br>http://hokyoji.net/en/people<br>
+    <br>
+
+    <h4>Izumo no Okuni </h4>
+    https://japannews.yomiuri.co.jp/original/perspectives/20240304-171024/<br>
+    <br>https://www.atlasobscura.com/places/statue-of-izumo-no-okuni-kyoto-japan<br>
+    <br>https://medium.com/japonica-publication/meet-the-woman-who-invented-kabuki-d63f4cc978b4<br>
+    <br>https://blog.gaijinpot.com/izumo-no-okuni-the-woman-who-created-kabuki/<br>
+    <br>https://www.britannica.com/biography/Okuni<br>
+    <br>https://www.britannica.com/art/Kabuki<br>
+    <br>
+
+    <h4>Empress Suiko</h4>
+    https://www.thoughtco.com/empress-suiko-of-japan-biography-3528831<br>
+    <br>https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/empress-suiko<br>
+    <br>https://www.newworldencyclopedia.org/entry/Empress_Suiko<br>
+    <br>https://asuka-japan-heritage.jp/global/en/suiko/life/<br>
+    <br>
+
+    <h4>Tomoe Gozen </h4>
+    https://worldhistorycommons.org/tomoe-gozen<br>
+    <br>https://www.tofugu.com/japan/tomoe-gozen/<br>
+    <br>https://www.ancient-origins.net/history-famous-people/tomoe-gozen-fearsome-japanese-female-warrior-12th-century-002974<br>
+    <br>https://www.historyoffighting.com/tomoe-gozen.php<br>
+    <br>https://lonemedievalist.hcommons.org/women-of-the-middle-ages/tomoe-gozen/<br>
+    <br>https://allthatsinteresting.com/tomoe-gozen<br>
+    <br>
+    
+    <h4> Other Sources </h4>
+    https://www.jrailpass.com/blog/obon-festival-in-japan <br>
+    <br>https://www.japan-guide.com/e/e2286.html<br>
+    <br>https://www.ndl.go.jp/en/preservation/pdf/Japanese_Four-Hole_Book_Binding.pdf<br>
+    </p>
+    </script>
     <script>
-    const pageID = ["page0", "index", "page1", "page2", "page3", "page5", "page6", "page7", "page8"] //0,1,2,3,4,5,6,7,8
+    const pageID = ["page0", "index", "page1", "page2", "page3", "page5", "page6", "page7", "page8", "sources"] //0,1,2,3,4,5,6,7,8
     let currentPage = 0;
         document.addEventListener('keyup', function(event) {
             if (event.key == 'ArrowRight') {
             currentPage++;
             
-            if (currentPage == 9) {
+            if (currentPage == 10) {
               currentPage = 0;
             }
             document.getElementById("content").innerHTML = document.getElementById(pageID[currentPage]).innerHTML;
             } else if (event.key == 'ArrowLeft') {
             currentPage--;
             if (currentPage == -1) {
-                currentPage = 8;
+                currentPage = 9;
             }
               document.getElementById("content").innerHTML = document.getElementById(pageID[currentPage]).innerHTML;
             }
