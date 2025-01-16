@@ -12,6 +12,8 @@ HTML/CSS:
 Game:
 ================================
 
+[1] Rewwrite the book contents to be as if the old gravekeeper actually wrote them, and not just an outsider like me
+
 [3] implement [esc]
 while writing: skip text, print out exit message
 while choosing an offering: stop countdown, print out exit message
